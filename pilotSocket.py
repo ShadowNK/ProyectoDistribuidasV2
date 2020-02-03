@@ -12,13 +12,25 @@ class MainPage(QDialog):
         loadUi('piloto.ui', self)
 
     def loadText(self, lat, lon, alt):
-        self.lblLat.setText()
+        self.txtLat.setText(lat)
+        self.txtLon.setText(lon)
+        self.txtAlt.setText(alt)
 
-    def changeStateGPS(self):
-        self.lblAlertGPS.setColor();
+    def changeStateGPS(self, alert):
+        color =''
+        if(alert == 1):
+            color = '0000000'
+        else:
+            color = 'FFFFFF'
+        self.txtAlertGPS.setColor(color)
 
-    def changeStateALT(self):
-        self.lblAlertAlt.setColor();
+    def changeStateALT(self, alert):
+        color =''
+        if(alert == 1):
+            color = '0000000'
+        else:
+            color = 'FFFFFF'
+        self.txtAlertAlt.setColor(color)
 
 
 # Creating a clientsocket
@@ -41,7 +53,9 @@ sock.connect(server)
 def reciver():
     reply = sock.recv(1024)
     aux = reply.decode().split('/')
-    widget.loadText(widget, aux[1], aux[2], aux[0])
+    widget.loadText(aux[1], aux[2], aux[0])
+    widget.changeStateALT(aux[3])
+    widget.changeStateGPS(aux[4])
 
 
 # Comunicacion
