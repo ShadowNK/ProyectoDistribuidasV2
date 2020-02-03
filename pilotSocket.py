@@ -57,7 +57,6 @@ def reciver():
     widget.changeStateALT(aux[3])
     widget.changeStateGPS(aux[4])
 
-
 # Comunicacion
 while True:
     reciver()
