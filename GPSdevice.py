@@ -14,6 +14,7 @@ cord2 = [1.0,1.0]
 cordR = [1.0,1.0]
 inc = [1.0,1.0]
 mov = [1.0,1.0]
+alert = 0
 
 lat = random.random()* 180 - 90
 lon = random.random()* 360 - 180
@@ -45,7 +46,7 @@ def sender():
         la = cord1[0]+cordR[0]
         lo = cord1[1]+cordR[1]
     #print(message)
-    msg = str(la) + '/' + str(lo) + '/' + message
+    msg = str(la) + '/' + str(lo) + '/' + alert + '/' + message
     sock.send(msg.encode())
 
 def validador():
@@ -53,8 +54,10 @@ def validador():
     plon = (cord2[1] - cord1[1])/cord1[1]
     if (plat > 0.05):
         state = 0
+        alert = 1
     elif (plon > 0.05):
         state = 0
+        alert = 1
 
 # MAIN
 while True:

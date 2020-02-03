@@ -14,6 +14,7 @@ alt2 = 1
 altR = 1
 inc = 0
 mov = 0
+alert = 0
 
 alt1 = random.random() * 32000
 alt2 = alt1
@@ -36,7 +37,7 @@ def sender():
         msg = str(alt1+alt2) + '/' + message
     else:
         message += 'ALT Respuesto: ' + str(altR) + '\n' +'ERROR EN ALT2\n'
-        msg = str(alt1+altR) + '/' + message
+        msg = str(alt1+altR) + '/' + alert + '/' + message
     #print(message)
     sock.send(msg.encode())
 
@@ -44,6 +45,7 @@ def validador():
     palt = (alt2 - alt1)/alt1
     if (palt > 0.05):
         state = 0
+        alert = 1
 
 # MAIN
 while True:

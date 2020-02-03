@@ -8,7 +8,7 @@ PORT = 50010
 bd = (socket(),'')
 pilot = (socket(),'')
 send = 0
-data = [0, 0, 0]
+data = [0, 0, 0, 0, 0]
 AltCon = 0
 GPSCon = 0
 
@@ -29,11 +29,11 @@ def on_new_alt(clientsocket,addr):
     while True:
         msg = clientsocket.recv(1024)
         if send == 1:
-            aux = msg.decode().split('/')
             data[0] += Decimal(aux[0])
+            data[3] = aux[1]
             AltCon += 2
             #print('pr: ' + str(data[0]))
-            resend_to_BD(aux[1].encode())
+            resend_to_BD(aux[2].encode())
 
     clientsocket.close()
 
@@ -49,9 +49,10 @@ def on_new_gps(clientsocket,addr):
             aux = msg.decode().split('/')
             data[1] += Decimal(aux[0])
             data[2] += Decimal(aux[1])
+            data[4] = Decimal(aux[2])
             GPSCon += 2
             #print('pr: ' + str(data[1]) + 'pr: ' + str(data[2]))
-            resend_to_BD(aux[2].encode())
+            resend_to_BD(aux[3].encode())
     clientsocket.close()
 
 
@@ -84,14 +85,16 @@ def pilot_calc():
         al = data[0]/AltCon
         la = data[1]/GPSCon
         lo = data[2]/GPSCon
-        resend_to_p(al, la, lo)
-        data = [0, 0, 0]
+        aa = data[3]
+        ag = data[4]
+        resend_to_p(al, la, lo, aa, ag)
+        data = [0, 0, 0, aa, ag]
         AltCon = 0
         GPSCon = 0
 
-def resend_to_p(al, la, lo):
+def resend_to_p(al, la, lo, aa, ag):
     (clientsocket,addr) = pilot
-    msg = 'ALTURA: ' + str(al) + '\nGPS: Lat: ' + str(la) + ' Lon: ' + str(lo)
+    msg = str(al) + '/' + str(la) + '/' + str(lo) + '/' + str(aa) + '/' + str(ag)
     print(msg)
     clientsocket.send(msg.encode())
 
