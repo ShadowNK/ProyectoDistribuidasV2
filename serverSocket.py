@@ -29,11 +29,12 @@ def on_new_alt(clientsocket,addr):
     while True:
         msg = clientsocket.recv(1024)
         if send == 1:
+            aux = msg.decode().split('/')
             data[0] += Decimal(aux[0])
-            data[3] = aux[1]
+            data[3] = Decimal(aux[1])
             AltCon += 2
-            #print('pr: ' + str(data[0]))
-            resend_to_BD(aux[2].encode())
+            ms = 'ALT/' + str(data[0]) + '/' + str(data[3]) + '/' + str(data[4])
+            resend_to_BD(ms.encode())
 
     clientsocket.close()
 
@@ -51,8 +52,8 @@ def on_new_gps(clientsocket,addr):
             data[2] += Decimal(aux[1])
             data[4] = Decimal(aux[2])
             GPSCon += 2
-            #print('pr: ' + str(data[1]) + 'pr: ' + str(data[2]))
-            resend_to_BD(aux[3].encode())
+            ms = 'GPS/' + str(data[1]) + '/' + str(data[2]) + '/' + str(data[4])
+            resend_to_BD(ms.encode())
     clientsocket.close()
 
 
