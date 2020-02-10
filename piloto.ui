@@ -186,9 +186,9 @@
    <widget class="QLineEdit" name="txtAlertAlt">
     <property name="geometry">
      <rect>
-      <x>580</x>
+      <x>540</x>
       <y>240</y>
-      <width>21</width>
+      <width>131</width>
       <height>20</height>
      </rect>
     </property>
@@ -199,14 +199,17 @@
    <widget class="QLineEdit" name="txtAlertGPS">
     <property name="geometry">
      <rect>
-      <x>580</x>
+      <x>540</x>
       <y>70</y>
-      <width>21</width>
+      <width>131</width>
       <height>20</height>
      </rect>
     </property>
     <property name="mouseTracking">
      <bool>false</bool>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
     </property>
     <property name="readOnly">
      <bool>true</bool>
