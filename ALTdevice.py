@@ -5,7 +5,7 @@ import time
 # Creating a ALT devices
 
 # Variables
-HOST = '172.31.108.23'  # Direccion IP del servidor
+HOST = 'localhost'  # Direccion IP del servidor
 PORT = 50010
 server = (HOST, PORT)
 
@@ -34,10 +34,10 @@ def sender():
     message = 'ALT1: ' + str(alt1) + '\n'
     if(state == 1):
         message += 'ALT2: ' + str(alt2) + '\n'
-        msg = str(alt1+alt2) + '/' + message
+        msg = str(alt1+alt2) + '/' + str(alert) + '/' + message
     else:
         message += 'ALT Respuesto: ' + str(altR) + '\n' +'ERROR EN ALT2\n'
-        msg = str(alt1+altR) + '/' + alert + '/' + message
+        msg = str(alt1+altR) + '/' + str(alert) + '/' + message
     #print(message)
     sock.send(msg.encode())
 

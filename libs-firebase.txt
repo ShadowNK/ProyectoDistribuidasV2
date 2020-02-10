@@ -1,0 +1,10 @@
+py -m pip install jwt
+py -m pip install PyQt5
+py -m pip install requests
+py -m pip install python-firebase
+py -m pip install python_jwt
+py -m pip install gcloud
+py -m pip install sseclient
+py -m pip install crypto
+rename crypto Crypto
+py -m pip install requests-toolbelt

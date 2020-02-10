@@ -5,7 +5,7 @@ import time
 # Creating a GPS devices
 
 # Variables
-HOST = '172.31.108.23'  # Direccion IP del servidor
+HOST = 'localhost'  # Direccion IP del servidor
 PORT = 50010
 server = (HOST, PORT)
 
@@ -46,7 +46,7 @@ def sender():
         la = cord1[0]+cordR[0]
         lo = cord1[1]+cordR[1]
     #print(message)
-    msg = str(la) + '/' + str(lo) + '/' + alert + '/' + message
+    msg = str(la) + '/' + str(lo) + '/' + str(alert) + '/' + message
     sock.send(msg.encode())
 
 def validador():

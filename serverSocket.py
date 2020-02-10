@@ -1,9 +1,8 @@
 from socket import *
 from _thread import *
-from decimal import Decimal
 import datetime
 
-HOST = '172.31.108.23'  # Direccion IP del seridor
+HOST = 'localhost'  # Direccion IP del seridor
 PORT = 50010
 bd = (socket(),'')
 pilot = (socket(),'')
@@ -30,8 +29,8 @@ def on_new_alt(clientsocket,addr):
         msg = clientsocket.recv(1024)
         if send == 1:
             aux = msg.decode().split('/')
-            data[0] += Decimal(aux[0])
-            data[3] = Decimal(aux[1])
+            data[0] += float(aux[0])
+            data[3] = float(aux[1])
             AltCon += 2
             ms = 'ALT/' + str(data[0]) + '/' + str(data[3]) + '/' + str(data[4])
             resend_to_BD(ms.encode())
@@ -48,9 +47,9 @@ def on_new_gps(clientsocket,addr):
         msg = clientsocket.recv(1024)
         if send == 1:
             aux = msg.decode().split('/')
-            data[1] += Decimal(aux[0])
-            data[2] += Decimal(aux[1])
-            data[4] = Decimal(aux[2])
+            data[1] += float(aux[0])
+            data[2] += float(aux[1])
+            data[4] = float(aux[2])
             GPSCon += 2
             ms = 'GPS/' + str(data[1]) + '/' + str(data[2]) + '/' + str(data[4])
             resend_to_BD(ms.encode())
@@ -62,6 +61,7 @@ def on_new_gps(clientsocket,addr):
 def on_new_BD(clientsocket,addr):
     print ("Conectado con BD: ", addr)
     global bd, send
+    #send = 1
     bd = (clientsocket, addr)
 
 def resend_to_BD(ms):
@@ -104,18 +104,22 @@ def resend_to_p(al, la, lo, aa, ag):
 input("Conectar el altimetro...")
 conn, addr = sock.accept()
 start_new_thread(on_new_alt,(conn,addr))
+time.sleep(0.1)
 
 input("Conectar el gps...")
 conn, addr = sock.accept()
 start_new_thread(on_new_gps,(conn,addr))
+time.sleep(0.1)
 
 input("Conectar la bd...")
 conn, addr = sock.accept()
 start_new_thread(on_new_BD,(conn,addr))
+time.sleep(0.1)
 
 input("Conectar el piloto...")
 conn, addr = sock.accept()
 start_new_thread(on_new_p,(conn,addr))
+time.sleep(0.1)
 
 
 input("press enter to finish")

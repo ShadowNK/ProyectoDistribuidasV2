@@ -3,9 +3,10 @@ import datetime
 from firebase.firebase import FirebaseApplication, FirebaseAuthentication
 
 # Creating a clientsocket
+Flight = 'VueloNo1'
 
 # Variables
-HOST = '172.31.108.23'  # Direccion IP del servidor
+HOST = 'localhost'  # Direccion IP del servidor
 PORT = 50010
 server = (HOST, PORT)
 
@@ -16,9 +17,9 @@ sock = socket(AF_INET, SOCK_STREAM)
 SECRET = '942534492089'
 EMAIL = 'inchiglemanicolax@gmail.com'
 DSN = 'https://distribuidase3.firebaseio.com/'
-BDname = '/vuelo1'
+BDname = '/distribuidase3/' + Flight
 auth = FirebaseAuthentication(SECRET, EMAIL, True, True)
-firebase = FirebaseApplication(DSN, auth)
+firebase = FirebaseApplication(DSN, None)
 
 gpsData = { 'lat': '',
             'lon': '',
@@ -49,7 +50,7 @@ def writterGPS(lat, lon, alert):
             'lon': lon,
             'GPSW': alert,
             'date': datetime.datetime.now()}
-    snapshot = firebase.post(BDname, gpsData)
+    snapshot = firebase.post(BDname+'-GPS', gpsData)
     print(snapshot['name'])
 
 
@@ -57,7 +58,7 @@ def writterALT(alt, alert):
     altData = { 'alt': alt,
             'ALTW': alert,
             'date': datetime.datetime.now()}
-    snapshot = firebase.post(BDname, altData)
+    snapshot = firebase.post(BDname+'-ALT', altData)
     print(snapshot['name'])
 
     
