@@ -1,6 +1,7 @@
 from socket import *
 from _thread import *
 import datetime
+import time
 
 HOST = 'localhost'  # Direccion IP del seridor
 PORT = 50010
