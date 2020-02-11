@@ -8,6 +8,10 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import socket
+from threading import Thread
+
+sock = None
 
 
 class Ui_MainWindow(object):
@@ -103,12 +107,69 @@ class Ui_MainWindow(object):
         self.lblAlertAlt.setText(_translate("MainWindow", "ESTADO ALTIMETRO"))
         self.lblAlt.setText(_translate("MainWindow", "Altitud:"))
 
+    def loadText(self, lat, lon, alt):
+        self.txtLat.setText(lat)
+        self.txtLon.setText(lon)
+        self.txtAlt.setText(alt)
+
+    def changeStateGPS(self, alert):
+        color = ''
+        txt = ''
+        if (alert == 1):
+            color = 'color: red;'
+            txt = 'RESPUESTO ACTIVADO'
+        else:
+            color = 'color: green;'
+            txt = 'OK'
+        self.txtAlertGPS.setStyleSheet(color)
+        self.txtAlertGPS.setText(txt)
+
+    def changeStateALT(self, alert):
+        color = ''
+        txt = ''
+        if (alert == 1):
+            color = 'color: red;'
+            txt = 'RESPUESTO ACTIVADO'
+        else:
+            color = 'color: green;'
+            txt = 'OK'
+        self.txtAlertAlt.setStyleSheet(color)
+        self.txtAlertAlt.setText(txt)
+
+
+class ClientThread(Thread):
+
+    window = None
+
+    def __init__(self, Window):
+        global window
+        Thread.__init__(self)
+        window = Window
+
+    def run(self):
+        HOST = 'localhost'  # Direccion IP del servidor
+        PORT = 50010
+        server = (HOST, PORT)
+        global sock
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect(server)
+        while True:
+            data = sock.recv(1024)
+            aux = data.decode().split('/')
+            Ui_MainWindow.loadText(window, aux[1], aux[2], aux[0])
+            Ui_MainWindow.changeStateALT(window, aux[3])
+            Ui_MainWindow.changeStateGPS(window, aux[4])
+        sock.close()
+
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
+    clientThread = ClientThread(ui)
+    clientThread.start()
     MainWindow.show()
     sys.exit(app.exec_())
