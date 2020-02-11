@@ -97,7 +97,7 @@ def pilot_calc():
 def resend_to_p(al, la, lo, aa, ag):
     (clientsocket,addr) = pilot
     msg = str(al) + '/' + str(la) + '/' + str(lo) + '/' + str(aa) + '/' + str(ag)
-    print(msg)
+    #print(msg)
     clientsocket.send(msg.encode())
 
 

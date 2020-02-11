@@ -36,6 +36,7 @@ sock = socket(AF_INET, SOCK_STREAM)
 sock.connect(server)
 
 def sender():
+    global  state, alert
     message = 'GPS1: \n\tLAT: ' + str(cord1[0]) +' LON: ' + str(cord1[1]) + '\n'
     if(state == 1):
         message += 'GPS2: \n\tLAT: ' + str(cord2[0]) +' LON: ' + str(cord2[1]) + '\n'
@@ -50,6 +51,7 @@ def sender():
     sock.send(msg.encode())
 
 def validador():
+    global  state, alert
     plat = (cord2[0] - cord1[0])/cord1[0]
     plon = (cord2[1] - cord1[1])/cord1[1]
     if (plat > 0.05):
@@ -58,6 +60,7 @@ def validador():
     elif (plon > 0.05):
         state = 0
         alert = 1
+    print(str(alert))
 
 # MAIN
 while True:
@@ -70,7 +73,7 @@ while True:
     validador()
     sender()
     time.sleep(0.2)
-    
+
 
 # Cerrar coneccion
 sock.close()

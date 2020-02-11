@@ -31,6 +31,7 @@ sock = socket(AF_INET, SOCK_STREAM)
 sock.connect(server)
 
 def sender():
+    global  state, alert
     message = 'ALT1: ' + str(alt1) + '\n'
     if(state == 1):
         message += 'ALT2: ' + str(alt2) + '\n'
@@ -42,10 +43,12 @@ def sender():
     sock.send(msg.encode())
 
 def validador():
+    global  state, alert
     palt = (alt2 - alt1)/alt1
     if (palt > 0.05):
         state = 0
         alert = 1
+    print(str(alert))
 
 # MAIN
 while True:

@@ -115,7 +115,7 @@ class Ui_MainWindow(object):
     def changeStateGPS(self, alert):
         color = ''
         txt = ''
-        if (alert == 1):
+        if (alert  > 0.5):
             color = 'color: red;'
             txt = 'RESPUESTO ACTIVADO'
         else:
@@ -127,7 +127,7 @@ class Ui_MainWindow(object):
     def changeStateALT(self, alert):
         color = ''
         txt = ''
-        if (alert == 1):
+        if (alert > 0.5):
             color = 'color: red;'
             txt = 'RESPUESTO ACTIVADO'
         else:
@@ -155,7 +155,9 @@ class ClientThread(Thread):
         sock.connect(server)
         while True:
             data = sock.recv(1024)
+            print(data)
             aux = data.decode().split('/')
+            print()
             Ui_MainWindow.loadText(window, aux[1], aux[2], aux[0])
             Ui_MainWindow.changeStateALT(window, aux[3])
             Ui_MainWindow.changeStateGPS(window, aux[4])
