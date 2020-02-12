@@ -115,7 +115,7 @@ class Ui_MainWindow(object):
     def changeStateGPS(self, alert):
         color = ''
         txt = ''
-        if (alert  > 0.5):
+        if (float(alert)  > 0.5):
             color = 'color: red;'
             txt = 'RESPUESTO ACTIVADO'
         else:
@@ -127,7 +127,7 @@ class Ui_MainWindow(object):
     def changeStateALT(self, alert):
         color = ''
         txt = ''
-        if (alert > 0.5):
+        if (float(alert) > 0.5):
             color = 'color: red;'
             txt = 'RESPUESTO ACTIVADO'
         else:

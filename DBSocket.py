@@ -2,13 +2,15 @@ from socket import *
 import datetime
 from firebase.firebase import FirebaseApplication, FirebaseAuthentication
 
-# Creating a clientsocket
-Flight = 'VueloNo1'
+
 
 # Variables
 HOST = 'localhost'  # Direccion IP del servidor
 PORT = 50010
 server = (HOST, PORT)
+
+
+
 
 # Crear el socket
 sock = socket(AF_INET, SOCK_STREAM)
@@ -35,7 +37,9 @@ sock.connect(server)
 def reciver():
     reply = sock.recv(1024)
     print(reply.decode())
+    aux = reply.decode().split('/')
     writter(reply.decode())
+
 
 def writter(data):
     if(len(data) != 0):
@@ -46,6 +50,7 @@ def writter(data):
             writterALT(aux[1], aux[2])
 
 def writterGPS(lat, lon, alert):
+    global alertado
     gpsData = { 'lat': lat,
             'lon': lon,
             'GPSW': alert,
@@ -55,6 +60,7 @@ def writterGPS(lat, lon, alert):
 
 
 def writterALT(alt, alert):
+    global alertado
     altData = { 'alt': alt,
             'ALTW': alert,
             'date': datetime.datetime.now()}

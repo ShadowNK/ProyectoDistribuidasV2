@@ -33,7 +33,7 @@ def on_new_alt(clientsocket,addr):
             data[0] += float(aux[0])
             data[3] = float(aux[1])
             AltCon += 2
-            ms = 'ALT/' + str(data[0]) + '/' + str(data[3]) + '/' + str(data[4])
+            ms = 'ALT/' + str(data[0]) + '/' + str(data[3]) + '/'
             resend_to_BD(ms.encode())
 
     clientsocket.close()
@@ -52,7 +52,7 @@ def on_new_gps(clientsocket,addr):
             data[2] += float(aux[1])
             data[4] = float(aux[2])
             GPSCon += 2
-            ms = 'GPS/' + str(data[1]) + '/' + str(data[2]) + '/' + str(data[4])
+            ms = 'GPS/' + str(data[1]) + '/' + str(data[2]) + '/' + str(data[4]) + '/'
             resend_to_BD(ms.encode())
     clientsocket.close()
 
@@ -67,7 +67,7 @@ def on_new_BD(clientsocket,addr):
 
 def resend_to_BD(ms):
     (clientsocket,addr) = bd
-    #print(ms.decode())
+    print(ms.decode())
     clientsocket.send(ms)
 
 
@@ -96,7 +96,7 @@ def pilot_calc():
 
 def resend_to_p(al, la, lo, aa, ag):
     (clientsocket,addr) = pilot
-    msg = str(al) + '/' + str(la) + '/' + str(lo) + '/' + str(aa) + '/' + str(ag)
+    msg = str(al) + '/' + str(la) + '/' + str(lo) + '/' + str(aa) + '/' + str(ag) + '/'
     #print(msg)
     clientsocket.send(msg.encode())
 

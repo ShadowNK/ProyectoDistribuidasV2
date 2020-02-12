@@ -1,8 +1,11 @@
 from socket import *
 import random
 import time
+import smtplib
+from email.mime.text import MIMEText
 
 # Creating a GPS devices
+Flight = 'VueloNo1'
 
 # Variables
 HOST = 'localhost'  # Direccion IP del servidor
@@ -28,9 +31,15 @@ inc = [lat*0.0005, lon*0.0005]
 mov = [lat*0.005, lon*0.005]
 
 state = 1
+alertado = 0
 
 # Crear el socket
 sock = socket(AF_INET, SOCK_STREAM)
+
+#Alerta email
+smtpserver = 'smtp.gmail.com:587'
+login = 'torrecontrol1234@gmail.com'
+password = 'Torre1234'
 
 # Establecer coneccion
 sock.connect(server)
@@ -60,7 +69,24 @@ def validador():
     elif (plon > 0.05):
         state = 0
         alert = 1
-    print(str(alert))
+        alertado = 1
+    if alert == 1 & alertado == 0:
+        msg = MIMEText("Se activo el dispositivo  de Repuesto: Altimero")
+        msg['Subject'] = "Alerta - ALT - " + Flight
+        msg['From'] = 'torrecontrol1234@gmail.com'
+        msg['To'] = 'inchiglemanicolax@gmail.com'
+        send_email(smtpserver, login, password, msg)
+        alertado[0] = 1
+    #print(str(alert))
+
+
+def send_email(smtpserver, login, password, msg):
+    srvGoogle = smtplib.SMTP(smtpserver)
+    srvGoogle.starttls()
+    srvGoogle.login(login, password)
+    problems = srvGoogle.sendmail(msg['From'], msg['To'], msg.as_string())
+    srvGoogle.quit()
+
 
 # MAIN
 while True:
