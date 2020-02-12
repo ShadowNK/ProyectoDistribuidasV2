@@ -52,7 +52,7 @@ def sender():
     sock.send(msg.encode())
 
 def validador():
-    global  state, alert
+    global  state, alert, alertado
     palt = (alt2 - alt1)/alt1
     if (palt > 0.05):
         state = 0
