@@ -16,11 +16,11 @@ inc = 0
 mov = 0
 alert = 0
 
-alt1 = random.random() * 32000
+alt1 = random.random() * 3200
 alt2 = alt1
 altR = alt1
-inc = alt1*0.03
-mov = alt1*0.05
+inc = alt1*0.0003
+mov = alt1*0.0005
 
 state = 1
 
